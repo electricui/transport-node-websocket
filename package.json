@@ -10,9 +10,9 @@
     "registry": "http://127.0.0.1:7001"
   },
   "dependencies": {
-    "@electricui/electricui-protocol-binary": "^0.2.1",
-    "@electricui/electricui-protocol-constants": "^0.2.1",
-    "@electricui/electricui-protocol-type-transforms": "^0.2.1",
+    "@electricui/protocol-binary": "^0.2.1",
+    "@electricui/protocol-constants": "^0.2.1",
+    "@electricui/protocol-type-transforms": "^0.2.1",
     "debug": "^3.1.0",
     "isomorphic-ws": "^4.0.0",
     "ws": "^5.1.1"
