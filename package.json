@@ -1,0 +1,43 @@
+{
+  "name": "@electricui/transport-node-websocket",
+  "version": "0.2.1",
+  "description": "ElectricUI WebSocket Transport for Desktop",
+  "electricui-entry": "index.js",
+  "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
+  "author": "Michael Orenstein <mike@whiteshadows.me>, Scott Rapson <scottapotamas@gmail.com>",
+  "license": "See LICENCE",
+  "publishConfig": {
+    "registry": "http://127.0.0.1:7001"
+  },
+  "dependencies": {
+    "debug": "^3.1.0",
+    "@electricui/electricui-protocol-binary": "^0.2.1",
+    "@electricui/electricui-protocol-constants": "^0.2.1",
+    "@electricui/electricui-protocol-type-transforms": "^0.2.1",
+    "isomorphic-ws": "^4.0.0",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "benchmark": "^2.1.4",
+    "bufferutil": "^3.0.3",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "mocha": "^3.5.3",
+    "nyc": "^11.3.0",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "sinon": "^3.3.0",
+    "utf-8-validate": "^4.0.0"
+  },
+  "scripts": {
+    "prepack": "silversmith prepack",
+    "postpack": "silversmith postpack",
+    "test": "nyc mocha --compilers js:babel-register --require babel-polyfill"
+  }
+}

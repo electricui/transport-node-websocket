@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": true,
+          "electron": "2.0"
+        },
+        "useBuiltIns": true,
+        "modules": false,
+        "include": ["transform-es2015-arrow-functions"],
+        "exclude": ["transform-async-to-generator", "transform-regenerator"]
+      }
+    ]
+  ],
+  "plugins": [
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-transform-object-rest-spread"
+  ]
+}
