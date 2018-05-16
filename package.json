@@ -1,6 +1,6 @@
 {
   "name": "@electricui/transport-node-websocket",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "ElectricUI WebSocket Transport for Desktop",
   "electricui-entry": "index.js",
   "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
