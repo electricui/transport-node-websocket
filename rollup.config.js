@@ -8,6 +8,7 @@ export default {
   },
   plugins: [
     babel({
+      comments: false,
       exclude: 'node_modules/*',
       plugins: [
         'external-helpers',
