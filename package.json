@@ -2,7 +2,7 @@
   "name": "@electricui/transport-node-websocket",
   "version": "0.2.6",
   "description": "ElectricUI WebSocket Transport for Desktop",
-  "electricui-entry": "index.js",
+  "electricui-dev": true,
   "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
   "author": "Michael Orenstein <mike@whiteshadows.me>, Scott Rapson <scottapotamas@gmail.com>",
   "license": "See LICENCE",
