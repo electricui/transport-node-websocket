@@ -6,6 +6,10 @@
   "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
   "author": "Michael Orenstein <mike@whiteshadows.me>, Scott Rapson <scottapotamas@gmail.com>",
   "license": "See LICENCE",
+  "main-when-published": "lib/index.js",
+  "files": [
+    "lib/*"
+  ],
   "publishConfig": {
     "registry": "http://127.0.0.1:7001"
   },
@@ -31,12 +35,25 @@
     "mocha": "^3.5.3",
     "nyc": "^11.3.0",
     "rollup-plugin-babel": "^3.0.4",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-helper-evaluate-path": "^0.4.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-plugin-minify-constant-folding": "^0.4.3",
+    "babel-plugin-minify-dead-code-elimination": "^0.4.3",
+    "babel-plugin-minify-mangle-names": "^0.4.3",
+    "babel-plugin-minify-simplify": "^0.4.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-merge-sibling-variables": "^6.9.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "google-closure-compiler": "20180506.0.0",
+    "rollup-plugin-babel": "^3.0.4",
     "sinon": "^3.3.0",
     "utf-8-validate": "^4.0.0"
   },
   "scripts": {
-    "prepack": "silversmith prepack",
+    "prepack": "npm run build && silversmith prepack",
+    "build": "rollup -c",
     "postpack": "silversmith postpack",
     "test": "nyc mocha --compilers js:babel-register --require babel-polyfill"
   }
