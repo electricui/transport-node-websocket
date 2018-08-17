@@ -1,5 +1,4 @@
 import { PassThrough } from 'stream'
-
 import convertWSToStream from './websocketStream'
 
 class WebSocketTransport {
@@ -48,6 +47,8 @@ class WebSocketTransport {
       if (this.writeInterface) this.writeInterface.unpipe(this.wsInterface)
 
       this.socket.close()
+
+      resolve()
     })
   }
 }
