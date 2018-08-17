@@ -1,8 +1,7 @@
 import {
+  MESSAGEID_SEARCH,
   TYPE_CALLBACK,
   TYPE_QUERY,
-  MESSAGEID_SEARCH,
-  EVENT_DISCOVERY
 } from '@electricui/protocol-constants'
 
 import { PassThrough } from 'stream'
@@ -18,7 +17,6 @@ class WebSocketDiscovery {
     this.factory = factory
     this.configuration = configuration
 
-    this.type = EVENT_DISCOVERY
     this.transportKey = 'websocket'
     this.canAcceptConnectionHints = true
 
@@ -37,7 +35,8 @@ class WebSocketDiscovery {
     generateTransportHash,
     isConnected,
     setConnected,
-    hint
+    ephemeralConnectionHinter,
+    hint,
   ) => {
     const connectionOptions = {}
 
@@ -58,7 +57,7 @@ class WebSocketDiscovery {
 
     // we then generate a transport instance based on the merged configuration and dynamic options (eg the comPath / URI / filePath)
     const { transport, readInterface, writeInterface } = this.factory(
-      Object.assign({}, this.configuration, connectionOptions)
+      Object.assign({}, this.configuration, connectionOptions),
     )
 
     // use the interfaces above to connect and do the needful
@@ -97,7 +96,7 @@ class WebSocketDiscovery {
     writeInterface.write({
       messageID: MESSAGEID_SEARCH,
       type: TYPE_CALLBACK,
-      internal: true
+      internal: true,
     })
 
     // we should recieve: lv, bi, si in that order
@@ -114,21 +113,21 @@ class WebSocketDiscovery {
     const deviceInformation = {
       deviceID: bi, // this is always expected
       internal: {
-        ...restCacheInternal
+        ...restCacheInternal,
       },
       developer: {
         // this can be injected if the developer wants
-        ...cacheDeveloper
+        ...cacheDeveloper,
       },
       transportKey: this.transportKey,
-      connectionOptions: connectionOptions
+      connectionOptions: connectionOptions,
     }
 
     // bubble this method up as a potential connection method
     callback({
       transportKey: this.transportKey,
       connectionOptions,
-      deviceInformation
+      deviceInformation,
     })
   }
 
