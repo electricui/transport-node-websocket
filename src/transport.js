@@ -2,28 +2,6 @@ import { Duplex, PassThrough } from 'stream'
 
 const debug = require('debug')('electricui-transport-node-websocket:transport')
 
-const convertWSToStream = socket => {
-  function write(chunk, enc, cb) {
-    if (socket.readyState === socket.OPEN) {
-      socket.send(chunk, cb)
-    } else {
-      socket.once('open', ignore => write(chunk, enc, cb))
-    }
-  }
-
-  const stream = new Duplex({
-    read: size => {},
-    write: write,
-    final: cb => cb(),
-  })
-
-  socket.on('message', chunk => stream.push(chunk))
-
-  // TODO: catch errors
-
-  return stream
-}
-
 class WebSocketTransport {
   constructor(options = {}) {
     if (options.uri === undefined || options.uri === null) {
@@ -46,6 +24,28 @@ class WebSocketTransport {
     this.writeInterface = new PassThrough({ objectMode: false })
   }
 
+  convertWSToStream = socket => {
+    function write(chunk, enc, cb) {
+      if (socket.readyState === socket.OPEN) {
+        socket.send(chunk, cb)
+      } else {
+        socket.once('open', ignore => write(chunk, enc, cb))
+      }
+    }
+
+    const stream = new Duplex({
+      read: size => {},
+      write: write,
+      final: cb => cb(),
+    })
+
+    socket.on('message', chunk => stream.push(chunk))
+
+    socket.on('error', this.error)
+
+    return stream
+  }
+
   connect = () => {
     return new Promise((resolve, reject) => {
       debug('Websocket connected')
@@ -53,7 +53,7 @@ class WebSocketTransport {
       const wsClass = this.WebSocket
 
       this.socket = new wsClass(this.uri, this.options)
-      this.wsInterface = convertWSToStream(this.socket)
+      this.wsInterface = this.convertWSToStream(this.socket)
 
       // pipe through the PassThrough
       this.wsInterface.pipe(this.readInterface)
@@ -77,6 +77,10 @@ class WebSocketTransport {
 
       resolve()
     })
+  }
+
+  error = e => {
+    console.error(e)
   }
 }
 
