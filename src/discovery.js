@@ -6,6 +6,8 @@ import {
 
 import { PassThrough } from 'stream'
 
+const debug = require('debug')('electricui-transport-node-websocket:discovery')
+
 class WebSocketDiscovery {
   constructor(opts) {
     const { factory, configuration = {} } = opts
@@ -40,11 +42,12 @@ class WebSocketDiscovery {
   ) => {
     const connectionOptions = {}
 
-    console.log(`Validating the discovery from hint ${JSON.stringify(hint)}`)
+    debug(`Validating the discovery from hint ${JSON.stringify(hint)}`)
 
     if (hint.uri) {
       connectionOptions.uri = hint.uri
     } else {
+      debug(`..No URI found, returning`)
       return
     }
 
@@ -52,6 +55,7 @@ class WebSocketDiscovery {
     const connectedAlready = isConnected(this.transportKey, connectionOptions)
 
     if (connectedAlready) {
+      debug(`Already connected, bailing`)
       return // bail, we're already connected to this path
     }
 
@@ -63,7 +67,11 @@ class WebSocketDiscovery {
     // use the interfaces above to connect and do the needful
     setConnected(this.transportKey, connectionOptions, true)
 
+    debug(`Attempting connection`)
+
     await transport.connect()
+
+    debug(`...connected`)
 
     // waitForReply implementation
 
@@ -72,6 +80,8 @@ class WebSocketDiscovery {
     let subscriptions = {}
 
     const incomingData = packet => {
+      debug(`Received packet`, packet)
+
       if (packet.internal) {
         cacheInternal[packet.messageID] = packet.payload
       } else {
@@ -101,7 +111,11 @@ class WebSocketDiscovery {
 
     // we should recieve: lv, bi, si in that order
 
+    debug(`Waiting for si reply`)
+
     await createWaitForReply('si')
+
+    debug(`Reply received`)
 
     const { bi, ...restCacheInternal } = cacheInternal
 
@@ -122,6 +136,8 @@ class WebSocketDiscovery {
       transportKey: this.transportKey,
       connectionOptions: connectionOptions,
     }
+
+    debug(`Device found, bubbling it up`)
 
     // bubble this method up as a potential connection method
     callback({
