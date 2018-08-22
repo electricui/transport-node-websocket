@@ -20,6 +20,7 @@
     "@electricui/protocol-type-transforms": "^0.3.7",
     "debug": "^3.1.0",
     "isomorphic-ws": "^4.0.0",
+    "bluebird": "^3.5.1",
     "ws": "^5.1.1"
   },
   "devDependencies": {
