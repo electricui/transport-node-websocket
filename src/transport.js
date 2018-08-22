@@ -80,6 +80,7 @@ class WebSocketTransport {
   }
 
   error = e => {
+    this.disconnect()
     console.error(e)
   }
 }
