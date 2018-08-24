@@ -42,6 +42,7 @@ class WebSocketTransport {
     socket.on('message', chunk => stream.push(chunk))
 
     socket.on('error', this.error)
+    stream.on('error', this.error)
 
     return stream
   }
