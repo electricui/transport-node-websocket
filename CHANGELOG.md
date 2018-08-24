@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.12"></a>
+## [0.3.12](https://github.com/Scottapotamas/electricui-interface/compare/v0.3.11...v0.3.12) (2018-08-24)
+
+
+### Features
+
+* Replaced promises with Bluebird ([372cb05](https://github.com/Scottapotamas/electricui-interface/commit/372cb05)), closes [#149](https://github.com/Scottapotamas/electricui-interface/issues/149)
+
+
+
+
 <a name="0.3.11"></a>
 ## [0.3.11](https://github.com/Scottapotamas/electricui-interface/compare/v0.3.10...v0.3.11) (2018-08-14)
 
