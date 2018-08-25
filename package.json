@@ -1,6 +1,6 @@
 {
   "name": "@electricui/transport-node-websocket",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "ElectricUI WebSocket Transport for Desktop",
   "electricui-dev": true,
   "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
@@ -15,7 +15,7 @@
     "registry": "http://127.0.0.1:7001"
   },
   "dependencies": {
-    "@electricui/protocol-binary": "^0.3.12",
+    "@electricui/protocol-binary": "^0.3.13",
     "@electricui/protocol-constants": "^0.3.12",
     "@electricui/protocol-type-transforms": "^0.3.12",
     "bluebird": "^3.5.1",
