@@ -119,13 +119,15 @@ class WebSocketDiscovery {
 
     const { bi, ...restCacheInternal } = cacheInternal
 
+    const deviceID = String(bi)
+
     readInterface.removeListener('data', incomingData)
     transport.disconnect()
     setConnected(this.transportKey, connectionOptions, false)
 
     // get some device information
     const deviceInformation = {
-      deviceID: bi, // this is always expected
+      deviceID, // this is always expected
       internal: {
         ...restCacheInternal,
       },
