@@ -24,14 +24,12 @@ class WebSocketTransport {
     this.writeInterface = new PassThrough({ objectMode: false })
   }
 
-  convertWSToStream = (socket, onopen) => {
-    const preConnectionQueue = []
-
+  convertWSToStream = socket => {
     function write(chunk, enc, cb) {
       if (socket.readyState === socket.OPEN) {
         socket.send(chunk, cb)
       } else {
-        preConnectionQueue.push({ chunk, enc, cb })
+        socket.once('open', ignore => write(chunk, enc, cb))
       }
     }
 
@@ -41,20 +39,9 @@ class WebSocketTransport {
       final: cb => cb(),
     })
 
-    socket.onmessage = chunk => {
-      const buffer = Buffer.from(chunk.data)
-      stream.push(buffer)
-    }
-    socket.onerror = this.error
-    socket.onopen = () => {
-      for (const preOpenWrite of preConnectionQueue) {
-        const { chunk, enc, cb } = preOpenWrite
-        write(chunk, enc, cb)
-      }
+    socket.on('message', chunk => stream.push(chunk))
 
-      onopen()
-    }
-
+    socket.on('error', this.error)
     stream.on('error', this.error)
 
     return stream
@@ -66,13 +53,16 @@ class WebSocketTransport {
 
       const wsClass = this.WebSocket
 
-      this.socket = new wsClass(this.uri) // ws has no options to pass.
-      this.socket.binaryType = 'arraybuffer'
-      this.wsInterface = this.convertWSToStream(this.socket, resolve)
+      this.socket = new wsClass(this.uri)
+      this.wsInterface = this.convertWSToStream(this.socket)
 
       // pipe through the PassThrough
       this.wsInterface.pipe(this.readInterface)
       this.writeInterface.pipe(this.wsInterface)
+
+      this.socket.once('open', () => {
+        resolve()
+      })
     })
   }
 
@@ -91,7 +81,6 @@ class WebSocketTransport {
   }
 
   error = e => {
-    debugger
     this.disconnect()
     console.error(e)
   }
