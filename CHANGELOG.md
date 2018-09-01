@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.16"></a>
+## [0.3.16](https://github.com/Scottapotamas/electricui-interface/compare/v0.3.15...v0.3.16) (2018-09-01)
+
+
+
+
+**Note:** Version bump only for package @electricui/transport-node-websocket
+
 <a name="0.3.14"></a>
 ## [0.3.14](https://github.com/Scottapotamas/electricui-interface/compare/v0.3.13...v0.3.14) (2018-09-01)
 
