@@ -6,7 +6,8 @@
   "repository": "https://Mike-Dax@github.com/Scottapotamas/electricui-interface.git",
   "author": "Michael Orenstein <mike@whiteshadows.me>, Scott Rapson <scottapotamas@gmail.com>",
   "license": "See LICENCE",
-  "main-when-published": "lib/index.js",
+  "main": "lib/index.js",
+  "main-when-published": "lib/index.js.eui",
   "files": [
     "lib/*",
     "manifest.json"
