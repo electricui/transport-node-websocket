@@ -60,3 +60,6 @@ typings/
 
 # built library files
 lib
+
+# Rollup cache
+.rpt2_cache

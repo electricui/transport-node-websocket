@@ -1,23 +1,22 @@
-import babel from 'rollup-plugin-babel'
+import autoExternal from 'rollup-plugin-auto-external'
+import path from 'path'
+import typescript from 'rollup-plugin-typescript2'
 
-export default {
-  input: 'index.js',
-  output: {
-    file: 'lib/index.js',
-    format: 'cjs'
-  },
-  plugins: [
-    babel({
-      comments: false,
-      exclude: 'node_modules/*',
-      plugins: [
-        'external-helpers',
-        'minify-mangle-names',
-        'minify-simplify',
-        'transform-merge-sibling-variables',
-        'minify-dead-code-elimination',
-        'minify-constant-folding'
-      ]
-    })
-  ]
+export default async a => {
+  return {
+    input: 'index.ts',
+    output: [
+      { format: 'cjs', file: path.resolve(__dirname, 'lib', `index.js`) },
+      { format: 'es', file: path.resolve(__dirname, 'lib', `index.mjs`) },
+    ],
+    plugins: [
+      autoExternal({
+        builtins: true,
+        dependencies: true,
+        packagePath: path.resolve(__dirname, 'package.json'),
+        peerDependencies: true,
+      }),
+      typescript(),
+    ],
+  }
 }
