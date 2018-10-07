@@ -21,10 +21,9 @@ const WebSocket = require('ws')
 
 const assert = chai.assert
 
-const portPath = 'http://127.0.0.1'
+const portPath = 'ws://127.0.0.1'
 
 const options = {
-  baudRate: 115200,
   WebSocket: WebSocket,
 }
 
