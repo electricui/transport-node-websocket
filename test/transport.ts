@@ -8,6 +8,7 @@ import {
   Connection,
   ConnectionInterface,
   DeliverabilityManagerDumb,
+  DeviceManager,
   QueryManagerNone,
   Sink,
   Source,
@@ -29,9 +30,15 @@ const options = {
 
 const factory = (options: any) => {
   const connectionInterface = new ConnectionInterface()
+  const deviceManager = new DeviceManager()
 
   // we need to create a connection and it'll auto-attach to the interface above
-  new Connection({ connectionInterface })
+  new Connection({
+    connectionInterface,
+    connectionStateUpdateCallback: () => {},
+    connectionUsageRequestUpdateCallback: () => {},
+    deviceManager,
+  })
 
   const transport = new WebSocketTransport(
     Object.assign({}, options, {
