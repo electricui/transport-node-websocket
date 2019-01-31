@@ -1,1 +1,1 @@
-export { default as WebsocketTransport } from './src/transport'
+export { default as WebSocketTransport } from './src/transport'
