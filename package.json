@@ -47,7 +47,7 @@
     "ws": "^5.2.2"
   },
   "scripts": {
-    "prepack": "npm run build && silversmith prepack",
+    "prepack": "silversmith prepack",
     "build": "rollup -c",
     "postpack": "silversmith postpack",
     "test": "export TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' &&  mocha --require ts-node/register --reporter mochawesome \"test/**/*.ts\" && export TS_NODE_COMPILER_OPTIONS=\"\"",
