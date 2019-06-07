@@ -1,16 +1,8 @@
-import * as Stream from 'stream'
-
 import { Sink, Transport } from '@electricui/core'
 
 const dTransport = require('debug')(
   'electricui-transport-node-websocket:transport',
 )
-
-/*
-export interface IWebSocket {
-  new (uri: string, options: WebSocket.OpenOptions): WebSocket
-}
-*/
 
 export interface WebSocketTransportOptions {
   uri: string
