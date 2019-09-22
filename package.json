@@ -45,7 +45,7 @@
   },
   "scripts": {
     "prepack": "silversmith prepack",
-    "build": "rollup -c",
+    "build": "rm -rf ./lib && rollup -c",
     "postpack": "silversmith postpack",
     "test": "export TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' &&  mocha --require ts-node/register --reporter mochawesome \"test/**/*.ts\" && export TS_NODE_COMPILER_OPTIONS=\"\"",
     "coverage": "export TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' && nyc mocha- -require ts-node/register \"test/**/*.ts\" && export TS_NODE_COMPILER_OPTIONS=\"\""
