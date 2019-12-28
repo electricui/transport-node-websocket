@@ -38,7 +38,7 @@
     "rollup-plugin-copy": "^3.1.0",
     "rollup-plugin-license": "^0.12.1",
     "rollup-plugin-typescript2": "^0.22.0",
-    "serialport": "8.0.5",
+    "serialport": "8.0.6",
     "sinon": "^7.2.3",
     "ts-node": "^8.3.0",
     "tslib": "^1.10.0",
