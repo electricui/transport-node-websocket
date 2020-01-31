@@ -1,6 +1,6 @@
 {
   "name": "@electricui/transport-node-websocket",
-  "version": "0.6.14",
+  "version": "0.6.15-prerelease.0",
   "description": "ElectricUI Websocket Transport for Desktop",
   "electricui-dev": true,
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
@@ -17,7 +17,7 @@
     "debug": "^4.1.1"
   },
   "devDependencies": {
-    "@electricui/core": "^0.6.11",
+    "@electricui/core": "^0.6.15-prerelease.0",
     "@types/chai": "^4.1.7",
     "@types/chai-subset": "^1.3.2",
     "@types/debug": "^4.1.1",
@@ -37,8 +37,8 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-license": "^0.13.0",
-    "serialport": "8.0.6",
     "rollup-plugin-typescript2": "^0.25.3",
+    "serialport": "8.0.6",
     "sinon": "^7.2.3",
     "ts-node": "^8.5.4",
     "tslib": "^1.10.0",
