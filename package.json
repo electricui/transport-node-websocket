@@ -1,6 +1,6 @@
 {
   "name": "@electricui/transport-node-websocket",
-  "version": "0.6.15-prerelease.25",
+  "version": "0.6.15-prerelease.32",
   "description": "ElectricUI Websocket Transport for Desktop",
   "electricui-dev": true,
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@electricui/build-rollup-config": "^0.6.15-prerelease.25",
-    "@electricui/core": "^0.6.15-prerelease.25",
+    "@electricui/core": "^0.6.15-prerelease.32",
     "@types/chai": "^4.1.7",
     "@types/chai-subset": "^1.3.2",
     "@types/debug": "^4.1.1",
