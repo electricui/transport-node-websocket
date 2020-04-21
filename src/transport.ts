@@ -1,12 +1,13 @@
 import { Sink, Transport } from '@electricui/core'
 
-const dTransport = require('debug')(
-  'electricui-transport-node-websocket:transport',
-)
+import WebSocket from 'ws'
+import debug from 'debug'
+
+const dTransport = debug('electricui-transport-node-websocket:transport')
 
 export interface WebSocketTransportOptions {
   uri: string
-  WebSocket: any
+  WebSocket: typeof WebSocket
   writeOptions?: {
     compress: boolean
   }

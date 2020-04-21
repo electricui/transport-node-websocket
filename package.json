@@ -27,7 +27,7 @@
     "@types/mocha": "^5.2.6",
     "@types/node": "^12.12.27",
     "@types/sinon": "^7.0.6",
-    "@types/ws": "^6.0.1",
+    "@types/ws": "^7.2.4",
     "chai": "^4.2.0",
     "chai-subset": "^1.6.0",
     "mocha": "^5.2.0",
@@ -40,13 +40,14 @@
     "ts-node": "^8.5.4",
     "tslib": "^1.10.0",
     "typescript": "^3.8.3",
-    "ws": "^5.2.2"
+    "ws": "^7.2.3"
   },
   "scripts": {
     "prepack": "silversmith prepack",
     "build": "rm -rf ./lib && rollup -c",
     "postpack": "silversmith postpack",
-    "test": "export TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' &&  mocha --require ts-node/register --reporter mochawesome \"test/**/*.ts\" && export TS_NODE_COMPILER_OPTIONS=\"\"",
-    "coverage": "export TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' && nyc mocha- -require ts-node/register \"test/**/*.ts\" && export TS_NODE_COMPILER_OPTIONS=\"\""
+    "test": "jest",
+    "watch": "jest --watch",
+    "coverage": "jest --collectCoverage"
   }
 }

@@ -1,6 +1,3 @@
-import 'mocha'
-
-import * as chai from 'chai'
 import * as portfinder from 'portfinder'
 import * as sinon from 'sinon'
 
@@ -14,19 +11,21 @@ import {
   Source,
 } from '@electricui/core'
 
+import WebSocket from 'ws'
 import WebSocketTransport from '../src/transport'
+import debug from 'debug'
 
-const dTest = require('debug')('electricui-transport-node-websocket:tests')
-
-const WebSocket = require('ws')
-
-const assert = chai.assert
+const dTest = debug('electricui-transport-node-websocket:tests')
 
 const portPath = 'ws://127.0.0.1'
 
 const options = {
   WebSocket: WebSocket,
 }
+
+let currentPort: number
+let mockServer: any
+let lastMessageReceived: any
 
 const factory = (options: any) => {
   const connectionInterface = new ConnectionInterface()
@@ -49,7 +48,7 @@ const factory = (options: any) => {
 
   connectionInterface.setTransport(transport)
 
-  const writePipeline = <Sink>transport.writePipeline
+  const writePipeline = transport.writePipeline as Sink
 
   const source = new Source()
   source.pipe(writePipeline)
@@ -72,7 +71,7 @@ const factory = (options: any) => {
     () => true,
   )
 
-  observable.subscribe(chunk => {
+  observable.subscribe((chunk) => {
     spy(chunk)
   })
 
@@ -82,10 +81,6 @@ const factory = (options: any) => {
     spy,
   }
 }
-
-let currentPort: number
-let mockServer: any
-let lastMessageReceived: any
 
 describe('Node WebSocket Transport', () => {
   beforeEach(async () => {
@@ -124,12 +119,12 @@ describe('Node WebSocket Transport', () => {
     })
   })
 
-  afterEach(function(done) {
+  afterEach((done) => {
     // tear down the WS server
     mockServer.close(done)
   })
 
-  it('Can connect and write', async () => {
+  test('Can connect and write', async () => {
     const { source, transport, spy } = factory(options)
 
     const chunk = Buffer.from('test')
@@ -137,27 +132,27 @@ describe('Node WebSocket Transport', () => {
     await transport.connect()
     await source.push(chunk)
 
-    await new Promise((resolve, re) => setTimeout(resolve, 10))
+    await new Promise((resolve, reject) => setTimeout(resolve, 10))
 
     await transport.disconnect()
 
-    assert.deepEqual(chunk, lastMessageReceived)
+    expect(chunk.equals(lastMessageReceived)).toBe(true)
   })
 
-  it('Can connect and write and receive', async () => {
+  test('Can connect and write and receive', async () => {
     const { source, transport, spy } = factory(options)
 
     const chunk = Buffer.from('test')
 
     await transport.connect()
-    await new Promise((resolve, re) => setTimeout(resolve, 10))
+    await new Promise((resolve, reject) => setTimeout(resolve, 10))
 
     await source.push(chunk)
 
-    await new Promise((resolve, re) => setTimeout(resolve, 10))
+    await new Promise((resolve, reject) => setTimeout(resolve, 10))
 
     await transport.disconnect()
 
-    assert.isTrue(spy.called)
+    expect(spy.called).toBe(true)
   })
 })
