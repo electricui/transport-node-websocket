@@ -5,6 +5,8 @@ import debug from 'debug'
 
 const dTransport = debug('electricui-transport-node-websocket:transport')
 
+export const WEBSOCKETS_TRANSPORT_KEY = 'websockets'
+
 export interface WebSocketTransportOptions {
   uri: string
   WebSocket: typeof WebSocket
