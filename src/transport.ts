@@ -27,7 +27,7 @@ class WebSocketWriteSink extends Sink {
 }
 
 export default class WebSocketTransport extends Transport {
-  websocket: any | null
+  websocket: WebSocket | null
   options: WebSocketTransportOptions
 
   constructor(options: WebSocketTransportOptions) {
@@ -46,12 +46,12 @@ export default class WebSocketTransport extends Transport {
     this.websocket = null
   }
 
-  error(err: Error) {
-    this.onError(err)
+  error(event: WebSocket.ErrorEvent) {
+    this.onError(event.error)
   }
 
-  close(err: Error) {
-    this.onClose(err)
+  close(event: WebSocket.CloseEvent) {
+    this.onClose(new Error(event.reason))
   }
 
   receiveData(chunk: any) {
@@ -67,8 +67,8 @@ export default class WebSocketTransport extends Transport {
       this.websocket = new WebSocket(uri)
       this.websocket.binaryType = 'nodebuffer'
 
-      const onConnectionError = (err: Error) => {
-        reject(err)
+      const onConnectionError = (event: WebSocket.ErrorEvent) => {
+        reject(event.error)
       }
 
       dTransport('client: connecting...')
@@ -78,11 +78,13 @@ export default class WebSocketTransport extends Transport {
       this.websocket.once('open', () => {
         dTransport('client: ... connection open')
 
-        this.websocket.removeEventListener('error', onConnectionError)
+        if (this.websocket) {
+          this.websocket.removeEventListener('error', onConnectionError)
 
-        this.websocket.on('error', this.error)
-        this.websocket.on('message', this.receiveData)
-        this.websocket.on('close', this.close)
+          this.websocket.on('error', this.error)
+          this.websocket.on('message', this.receiveData)
+          this.websocket.on('close', this.close)
+        }
 
         resolve()
       })
@@ -90,8 +92,8 @@ export default class WebSocketTransport extends Transport {
   }
 
   disconnect() {
-    if (this.websocket) {
-      return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+      if (this.websocket) {
         // TODO: this isn't really async?
 
         this.websocket.removeEventListener('error', this.error)
@@ -99,19 +101,19 @@ export default class WebSocketTransport extends Transport {
         this.websocket.removeEventListener('close', this.close)
         this.websocket.close()
         this.websocket = null
-        resolve()
-      })
-    }
-    return Promise.resolve()
+      }
+      resolve()
+    })
   }
 
-  writeToDevice(chunk: any) {
+  writeToDevice(chunk: Buffer) {
     dTransport('writing raw websocket data', chunk)
 
     return new Promise((resolve, reject) => {
       if (!this.websocket) {
         console.log(this.websocket)
         reject(new Error('not connected'))
+        return
       }
 
       this.websocket.send(chunk, (err: Error) => {
