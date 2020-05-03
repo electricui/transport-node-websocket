@@ -1,3 +1,5 @@
+import {} from '@electricui/build-rollup-config'
+
 import { Sink, Transport } from '@electricui/core'
 
 import WebSocket from 'ws'
@@ -56,10 +58,22 @@ export default class WebSocketTransport extends Transport {
     this.onClose(new Error(event.reason))
   }
 
-  receiveData(chunk: any) {
+  receiveData(chunk: string | Buffer) {
     dTransport('received raw websocket data', chunk)
+    // Convert any string packets to buffers
 
-    return this.readPipeline.push(chunk)
+    if (__DEV__) {
+      if (typeof chunk === 'string') {
+        console.info(
+          'Received string message over websockets transport:',
+          chunk,
+        )
+      }
+    }
+
+    this.readPipeline.push(Buffer.from(chunk)).catch((reason) => {
+      console.warn("Websocket transport couldn't receive a message", reason)
+    })
   }
 
   connect() {
@@ -81,7 +95,7 @@ export default class WebSocketTransport extends Transport {
         dTransport('client: ... connection open')
 
         if (this.websocket) {
-          this.websocket.removeEventListener('error', onConnectionError)
+          this.websocket.removeListener('error', onConnectionError)
 
           this.websocket.on('error', this.error)
           this.websocket.on('message', this.receiveData)
@@ -98,9 +112,9 @@ export default class WebSocketTransport extends Transport {
       if (this.websocket) {
         // TODO: this isn't really async?
 
-        this.websocket.removeEventListener('error', this.error)
-        this.websocket.removeEventListener('message', this.receiveData)
-        this.websocket.removeEventListener('close', this.close)
+        this.websocket.removeListener('error', this.error)
+        this.websocket.removeListener('message', this.receiveData)
+        this.websocket.removeListener('close', this.close)
         this.websocket.close()
         this.websocket = null
       }
@@ -113,7 +127,6 @@ export default class WebSocketTransport extends Transport {
 
     return new Promise((resolve, reject) => {
       if (!this.websocket) {
-        console.log(this.websocket)
         reject(new Error('not connected'))
         return
       }
