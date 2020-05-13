@@ -71,7 +71,7 @@ export default class WebSocketTransport extends Transport {
       }
     }
 
-    this.readPipeline.push(Buffer.from(chunk)).catch((reason) => {
+    this.readPipeline.push(Buffer.from(chunk)).catch(reason => {
       console.warn("Websocket transport couldn't receive a message", reason)
     })
   }

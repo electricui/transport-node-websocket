@@ -71,7 +71,7 @@ const factory = (options: any) => {
     () => true,
   )
 
-  observable.subscribe((chunk) => {
+  observable.subscribe(chunk => {
     spy(chunk)
   })
 
@@ -119,7 +119,7 @@ describe('Node WebSocket Transport', () => {
     })
   })
 
-  afterEach((done) => {
+  afterEach(done => {
     // tear down the WS server
     mockServer.close(done)
   })
