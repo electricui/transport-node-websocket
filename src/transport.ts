@@ -1,6 +1,6 @@
 import {} from '@electricui/build-rollup-config'
 
-import { Sink, Transport } from '@electricui/core'
+import { CancellationToken, Sink, Transport } from '@electricui/core'
 
 import WebSocket from 'ws'
 import debug from 'debug'
@@ -71,9 +71,14 @@ export default class WebSocketTransport extends Transport {
       }
     }
 
-    this.readPipeline.push(Buffer.from(chunk)).catch(reason => {
-      console.warn("Websocket transport couldn't receive a message", reason)
-    })
+    // This is a bit meaningless since nothing should fail now.
+    const cancellationToken = new CancellationToken()
+
+    this.readPipeline
+      .push(Buffer.from(chunk), cancellationToken)
+      .catch(reason => {
+        console.warn("Websocket transport couldn't receive a message", reason)
+      })
   }
 
   connect() {
