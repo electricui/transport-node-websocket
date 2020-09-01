@@ -35,7 +35,7 @@ export default class WebSocketTransport extends Transport {
   options: WebSocketTransportOptions
 
   constructor(options: WebSocketTransportOptions) {
-    super(options)
+    super()
 
     this.options = options
 
