@@ -81,42 +81,56 @@ export default class WebSocketTransport extends Transport {
       })
   }
 
-  connect() {
+  connect(cancellationToken: CancellationToken) {
     return new Promise((resolve, reject) => {
+      dTransport('client: connecting...')
+
       const { WebSocket, uri } = this.options
 
       this.websocket = new WebSocket(uri)
       this.websocket.binaryType = 'nodebuffer'
 
+      // If we error during connection, reject
       const onConnectionError = (event: WebSocket.ErrorEvent) => {
         reject(event.error)
       }
+      this.websocket.once('error', onConnectionError)
 
-      dTransport('client: connecting...')
+      cancellationToken.subscribe(token => {
+        // If it cancels, reject with a cancellation immediately
+        reject(token)
 
-      this.websocket.on('error', onConnectionError)
+        // Terminate the connection
 
+        // This will send an error to the onConnectionError handler, but
+        // we will have already cancelled the attempt with the token above.
+        this.websocket?.terminate()
+      })
+
+      // Once opened, resolve the promise and cleanup the cancellationToken handlers
       this.websocket.once('open', () => {
         dTransport('client: ... connection open')
 
-        if (this.websocket) {
-          this.websocket.removeListener('error', onConnectionError)
-
-          this.websocket.on('error', this.error)
-          this.websocket.on('message', this.receiveData)
-          this.websocket.on('close', this.close)
+        if (!this.websocket) {
+          reject(new Error('WS Connection opened but reference was null'))
+          return
         }
 
+        this.websocket.removeListener('error', onConnectionError)
+
+        this.websocket.on('error', this.error)
+        this.websocket.on('message', this.receiveData)
+        this.websocket.on('close', this.close)
+
+        cancellationToken.cleanup()
         resolve()
       })
     })
   }
 
-  disconnect() {
+  disconnect(cancellationToken: CancellationToken) {
     return new Promise((resolve, reject) => {
       if (this.websocket) {
-        // TODO: this isn't really async?
-
         this.websocket.removeListener('error', this.error)
         this.websocket.removeListener('message', this.receiveData)
         this.websocket.removeListener('close', this.close)
