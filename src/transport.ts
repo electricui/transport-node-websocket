@@ -55,7 +55,11 @@ export default class WebSocketTransport extends Transport {
   }
 
   close(event: WebSocket.CloseEvent) {
-    this.onClose(new Error(event.reason))
+    if (event.reason) {
+      this.onClose(new Error(event.reason))
+    } else {
+      this.onClose(null)
+    }
   }
 
   receiveData(chunk: string | Buffer) {
