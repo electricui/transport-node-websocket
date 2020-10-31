@@ -154,11 +154,17 @@ export default class WebSocketTransport extends Transport {
         return
       }
 
+      if (this.websocket.bufferedAmount > 1000) {
+        console.log("ws buffer", this.websocket.bufferedAmount)
+        this.pause()
+      }
+
       this.websocket.send(chunk, (err: Error) => {
         if (err) {
           reject(err)
           return
         } else {
+          this.resume()
           resolve()
         }
       })
