@@ -68,25 +68,20 @@ export default class WebSocketTransport extends Transport {
 
     if (__DEV__) {
       if (typeof chunk === 'string') {
-        console.info(
-          'Received string message over websockets transport:',
-          chunk,
-        )
+        console.info('Received string message over websockets transport:', chunk)
       }
     }
 
     // This is a bit meaningless since nothing should fail now.
     const cancellationToken = new CancellationToken()
 
-    this.readPipeline
-      .push(Buffer.from(chunk), cancellationToken)
-      .catch(reason => {
-        console.warn("Websocket transport couldn't receive a message", reason)
-      })
+    this.readPipeline.push(Buffer.from(chunk), cancellationToken).catch(reason => {
+      console.warn("Websocket transport couldn't receive a message", reason)
+    })
   }
 
   connect(cancellationToken: CancellationToken) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       dTransport('client: connecting...')
 
       const { WebSocket, uri } = this.options
@@ -132,8 +127,8 @@ export default class WebSocketTransport extends Transport {
     })
   }
 
-  disconnect(cancellationToken: CancellationToken) {
-    return new Promise((resolve, reject) => {
+  disconnect() {
+    return new Promise<void>((resolve, reject) => {
       if (this.websocket) {
         this.websocket.removeListener('error', this.error)
         this.websocket.removeListener('message', this.receiveData)
@@ -148,14 +143,14 @@ export default class WebSocketTransport extends Transport {
   writeToDevice(chunk: Buffer) {
     dTransport('writing raw websocket data', chunk)
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!this.websocket) {
         reject(new Error('not connected'))
         return
       }
 
       if (this.websocket.bufferedAmount > 1000) {
-        console.log("ws buffer", this.websocket.bufferedAmount)
+        console.log('ws buffer', this.websocket.bufferedAmount)
         this.pause()
       }
 
