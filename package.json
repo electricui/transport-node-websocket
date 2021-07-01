@@ -18,6 +18,7 @@
     "manifest.json"
   ],
   "dependencies": {
+    "@electricui/async-utilities": "^0.8.8",
     "bluebird": "^3.5.3",
     "debug": "^4.3.1"
   },

@@ -1,6 +1,7 @@
 import {} from '@electricui/build-rollup-config'
 
-import { CancellationToken, Sink, Transport } from '@electricui/core'
+import { Sink, Transport } from '@electricui/core'
+import { CancellationToken } from '@electricui/async-utilities'
 
 import WebSocket from 'ws'
 import debug from 'debug'
