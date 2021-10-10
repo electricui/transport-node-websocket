@@ -1,6 +1,6 @@
 {
   "name": "@electricui/transport-node-websocket",
-  "version": "0.8.9",
+  "version": "0.9.0",
   "description": "ElectricUI Websocket Transport for Desktop",
   "electricui-dev": true,
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
