@@ -38,7 +38,7 @@
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
     "portfinder": "^1.0.20",
-    "rollup": "2.51.2",
+    "rollup": "3.2.5",
     "sinon": "^7.2.3",
     "ts-node": "^10.9.1",
     "tslib": "^2.0.3",
@@ -47,7 +47,7 @@
   },
   "scripts": {
     "prepack": "silversmith prepack",
-    "build": "rm -rf ./lib && rollup -c",
+    "build": "rm -rf ./lib && rollup -c --bundleConfigAsCjs",
     "postpack": "silversmith postpack",
     "test": "jest --runInBand",
     "watch": "jest --watch",
